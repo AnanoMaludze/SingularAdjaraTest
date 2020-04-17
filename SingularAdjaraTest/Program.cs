@@ -28,8 +28,14 @@ namespace SingularAdjaraTest
         {
             try
             {
+                /*
+                 * Parsing txt document that contains username and password with the following format:
+                 * Username: ***
+                 * Password: ***
+                 */
                 string[] lines = System.IO.File.ReadAllLines(@"\\Mac\Home\Desktop\adjaranetUserPass.txt");
                 var user = new User();
+
                 user.Username = lines[0].Substring(lines[0].IndexOf("Username: ") + 10);
                 user.Password = lines[1].Substring(lines[1].IndexOf("Password: ") + 10);
 
