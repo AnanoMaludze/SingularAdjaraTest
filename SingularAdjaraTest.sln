@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1082
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SingularAdjaraTest", "SingularAdjaraTest\SingularAdjaraTest.csproj", "{00017765-7488-4D10-84DF-A54560F96835}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00017765-7488-4D10-84DF-A54560F96835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00017765-7488-4D10-84DF-A54560F96835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00017765-7488-4D10-84DF-A54560F96835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00017765-7488-4D10-84DF-A54560F96835}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FF823E50-C18D-470A-9FF9-57AF34D207AF}
+	EndGlobalSection
+EndGlobal
