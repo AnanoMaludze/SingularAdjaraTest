@@ -15,7 +15,7 @@ namespace SingularAdjaraTest
         public static By loginButton = By.CssSelector("button[data-id='login-btn']");
         public static By liveCasino = By.CssSelector("a[href*='/Casino']");
         public static By adjJackpotRoulette = By.CssSelector("div[alt='Adjarabet Jackpot Roulette']");
-        public static By lastWinNum = By.XPath("(//span[@class='LastNumbers__item__text'])[1]");
+        public static By lastWinNum = By.CssSelector("div[class*='LastNumbers--button-group'] span[class*='LastNumbers']");
         public static By winNumWrapper = By.CssSelector("span[class*='Label WinningNumber']>span");
         public static By iFrameElement = By.CssSelector("iframe[src*='https://sngroulette.adjarabet.com/jackpot-live-roulette/']");
         public static By newRound = By.CssSelector("span[class*='Progress__text']>span");
@@ -43,20 +43,18 @@ namespace SingularAdjaraTest
                 OpenSiteAndLogin(user);
                 GoToLiveCasinoPage();
                 OpenGame();
-                bool areEqual = CheckNumbers();
-                while (areEqual)
+
+                while (true)
                 {
+                    CheckNumbers();
                     Console.WriteLine(DateTime.UtcNow + " Passed");
                     WaitForNewRound();
-                    areEqual = CheckNumbers();
                 }
-                Assert.Fail();
-
             }
             catch (Exception e)
             {
+                driver.Close();
                 Console.WriteLine(e);
-                driver.Quit();
             }
 
         }
@@ -78,19 +76,15 @@ namespace SingularAdjaraTest
             wait.Until(ExpectedConditions.ElementIsVisible(iFrameElement));
             driver.SwitchTo().Frame(driver.FindElement(iFrameElement));
         }
-        private static bool CheckNumbers()
+        private static void CheckNumbers()
         {
             wait.Until(ExpectedConditions.ElementExists(winNumWrapper));
             int lastWinNumberPopup = Convert.ToInt16(driver.FindElements(winNumWrapper)[1].Text);
-
+            Console.Write($"Popup Num: {lastWinNumberPopup}  ");
             wait.Until(ExpectedConditions.ElementIsVisible(lastWinNum));
-            int lastWinNumStats = Convert.ToInt16(driver.FindElement(lastWinNum).Text);
-
-            if (lastWinNumberPopup != lastWinNumStats)
-            {
-                return false;
-            }
-            return true;
+            int lastWinNumStats = Convert.ToInt16(driver.FindElements(lastWinNum)[0].Text);
+            Console.WriteLine($"Stat Num: {lastWinNumStats}  ");
+            Assert.AreEqual(lastWinNumStats, lastWinNumberPopup);
         }
         private static void WaitForNewRound()
         {
