@@ -20,7 +20,7 @@ namespace SingularAdjaraTest
         public static By iFrameElement = By.CssSelector("iframe[src*='https://sngroulette.adjarabet.com/jackpot-live-roulette/']");
         public static By newRound = By.CssSelector("span[class*='Progress__text']>span");
         public static IWebDriver driver = new ChromeDriver();
-        public static WebDriverWait waitForMin = new WebDriverWait(driver, TimeSpan.FromSeconds(100));
+        public static WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromMinutes(10));
         public static WebDriverWait waitForThreeSec = new WebDriverWait(driver, TimeSpan.FromSeconds(3));
         public static IJavaScriptExecutor js = (IJavaScriptExecutor)driver;
 
@@ -29,10 +29,10 @@ namespace SingularAdjaraTest
             try
             {
                 string[] lines = System.IO.File.ReadAllLines(@"\\Mac\Home\Desktop\adjaranetUserPass.txt");
-                var user = new User ();
+                var user = new User();
                 user.Username = lines[0].Substring(lines[0].IndexOf("Username: ") + 10);
                 user.Password = lines[1].Substring(lines[1].IndexOf("Password: ") + 10);
-               
+
                 driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
                 OpenSiteAndLogin(user);
                 GoToLiveCasinoPage();
@@ -40,11 +40,12 @@ namespace SingularAdjaraTest
                 bool areEqual = CheckNumbers();
                 while (areEqual)
                 {
+                    Console.WriteLine(DateTime.UtcNow + " Passed");
                     WaitForNewRound();
                     areEqual = CheckNumbers();
                 }
                 Assert.Fail();
-               
+
             }
             catch (Exception e)
             {
@@ -68,26 +69,27 @@ namespace SingularAdjaraTest
         private static void OpenGame()
         {
             js.ExecuteScript("arguments[0].click();", driver.FindElement(adjJackpotRoulette));
-            waitForMin.Until(ExpectedConditions.ElementIsVisible(iFrameElement));
+            wait.Until(ExpectedConditions.ElementIsVisible(iFrameElement));
             driver.SwitchTo().Frame(driver.FindElement(iFrameElement));
         }
         private static bool CheckNumbers()
         {
-            waitForMin.Until(ExpectedConditions.ElementExists(winNumWrapper));
+            wait.Until(ExpectedConditions.ElementExists(winNumWrapper));
             int lastWinNumberPopup = Convert.ToInt16(driver.FindElements(winNumWrapper)[1].Text);
-            
-            waitForMin.Until(ExpectedConditions.ElementIsVisible(lastWinNum));
+
+            wait.Until(ExpectedConditions.ElementIsVisible(lastWinNum));
             int lastWinNumStats = Convert.ToInt16(driver.FindElement(lastWinNum).Text);
-           
+
             if (lastWinNumberPopup != lastWinNumStats)
             {
                 return false;
             }
             return true;
         }
-        private static void WaitForNewRound() {
-            waitForMin.Until(ExpectedConditions.ElementExists(newRound));
-            
+        private static void WaitForNewRound()
+        {
+            wait.Until(ExpectedConditions.ElementExists(newRound));
+
         }
         private static void WaitAndClick(IWebDriver driver, By by, WebDriverWait wait)
         {
