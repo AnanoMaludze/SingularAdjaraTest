@@ -33,7 +33,7 @@ namespace SingularAdjaraTest
                  * Username: ***
                  * Password: ***
                  */
-                string[] lines = System.IO.File.ReadAllLines(@"adjaranetUserPass.txt");
+                string[] lines = System.IO.File.ReadAllLines(@"userCredentials.txt");
                 var user = new User();
 
                 user.Username = lines[0].Substring(lines[0].IndexOf("Username: ") + 10);
